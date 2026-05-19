@@ -1,0 +1,115 @@
+stages:
+
+  preprocess:
+    cmd: python src/preprocessing/preprocess.py
+    deps:
+      - src/preprocessing/preprocess.py
+      - data/raw/dataset_ProjetML_2026.csv
+    params:
+      - preprocessing
+      - data
+    outs:
+      - data/processed/train.csv
+      - data/processed/val.csv
+      - data/processed/test.csv
+      - data/processed/label_encoder.pkl
+      - data/processed/scaler.pkl
+      - data/processed/source_encoder.pkl
+    metrics:
+      - data/processed/preprocessing_metrics.json:
+          cache: false
+
+  train_classification:
+    cmd: python src/models/train_classification.py
+    deps:
+      - src/models/train_classification.py
+      - data/processed/train.csv
+      - data/processed/val.csv
+      - data/processed/test.csv
+      - data/processed/label_encoder.pkl
+    params:
+      - models.classification
+    outs:
+      - data/processed/best_classifier.pkl
+      - data/processed/classification_results.csv
+    metrics:
+      - data/processed/classification_metrics.json:
+          cache: false
+
+  train_regression:
+    cmd: python src/models/train_regression.py
+    deps:
+      - src/models/train_regression.py
+      - data/processed/train.csv
+      - data/processed/test.csv
+    params:
+      - models.regression
+    outs:
+      - data/processed/best_regressor.pkl
+      - data/processed/regression_results.csv
+    metrics:
+      - data/processed/regression_metrics.json:
+          cache: false
+
+  clustering:
+    cmd: python src/models/clustering.py
+    deps:
+      - src/models/clustering.py
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - data/processed/label_encoder.pkl
+    params:
+      - clustering
+    outs:
+      - data/processed/kmeans_model.pkl
+      - data/processed/pca_model.pkl
+      - data/processed/pca_clusters.csv
+    metrics:
+      - data/processed/clustering_metrics.json:
+          cache: false
+
+  train_nlp:
+    cmd: python src/nlp/train_nlp.py
+    deps:
+      - src/nlp/train_nlp.py
+      - src/nlp/text_preprocessing.py
+      - data/raw/dataset_ProjetML_2026.csv
+      - data/processed/train.csv
+      - data/processed/val.csv
+      - data/processed/test.csv
+      - data/processed/label_encoder.pkl
+    params:
+      - nlp
+    outs:
+      - data/processed/tfidf_vectorizer.pkl
+      - data/processed/bow_vectorizer.pkl
+      - data/processed/word2vec_model.pkl
+      - data/processed/fasttext_model.pkl
+      - data/processed/nlp_best_classifier.pkl
+      - data/processed/nlp_features.csv
+      - data/processed/nlp_heatmap.png
+    metrics:
+      - data/processed/nlp_metrics.json:
+          cache: false
+
+  train_multimodal:
+    cmd: python src/models/train_multimodal.py
+    deps:
+      - src/models/train_multimodal.py
+      - data/processed/train.csv
+      - data/processed/val.csv
+      - data/processed/test.csv
+      - data/processed/tfidf_vectorizer.pkl
+      - data/processed/best_classifier.pkl
+      - data/processed/nlp_best_classifier.pkl
+    params:
+      - nlp
+      - models.classification
+    outs:
+      - data/processed/pipeline_multimodal.pkl
+      - data/processed/tfidf_multimodal.pkl
+      - data/processed/stacking_classifier.pkl
+      - data/processed/multimodal_results.csv
+    metrics:
+      - data/processed/multimodal_metrics.json:
+          cache: false

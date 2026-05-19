@@ -1,0 +1,63 @@
+data:
+  raw_path: data/raw/dataset_ProjetML_2026.csv
+  processed_dir: data/processed
+  random_state: 42
+  test_size: 0.15
+  val_size: 0.15
+
+preprocessing:
+  numeric_cols:
+    - Poids
+    - Volume
+    - Conductivite
+    - Opacite
+    - Rigidite
+    - Prix_Revente
+  cat_cols:
+    - Categorie
+    - Source
+  imputation_method: auto   # auto = choisit la meilleure parmi médiane/KNN/MICE
+  knn_neighbors: 5
+  iterative_max_iter: 10
+  outlier_method: iqr
+  outlier_factor: 1.5
+  scaler: standard          # standard | minmax | robust
+
+models:
+  classification:
+    models:
+      - LogisticRegression
+      - RandomForest
+      - GradientBoosting
+      - SVC
+      - XGBoost
+    cv_folds: 5
+    scoring: f1_weighted
+    min_accuracy: 0.70
+  regression:
+    models:
+      - Ridge
+      - RandomForestRegressor
+      - GradientBoostingRegressor
+    cv_folds: 5
+    scoring: r2
+
+nlp:
+  max_features: 500
+  ngram_min: 1
+  ngram_max: 2
+  min_df: 2
+  w2v_vector_size: 100
+  w2v_window: 5
+  w2v_epochs: 15
+  ft_min_n: 3
+  ft_max_n: 6
+
+clustering:
+  k_min: 2
+  k_max: 10
+  random_state: 42
+
+api:
+  host: 0.0.0.0
+  port: 8000

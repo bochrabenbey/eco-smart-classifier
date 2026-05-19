@@ -1,0 +1,4 @@
+model,r2,mae,rmse
+GradientBoostingRegressor,0.9272,0.4423,1.2025
+RandomForestRegressor,0.9261,0.3877,1.2121
+Ridge,0.8498,1.1996,1.7277
