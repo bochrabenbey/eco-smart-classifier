@@ -25,7 +25,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-PROCESSED_DIR = os.getenv("PROCESSED_DIR", "data/processed")
+PROCESSED_DIR = os.getenv("PROCESSED_DIR", os.path.join(os.path.dirname(__file__), "../../data/processed"))
 
 PALETTE = {
     "Métal":         {"color": "#93C5FD", "bg": "#EFF6FF", "icon": "🔩"},
