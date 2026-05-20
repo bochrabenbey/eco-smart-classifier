@@ -1,1 +1,1 @@
-{"accuracy": 0.998, "f1": 0.997, "precision": 0.998, "recall": 0.997}
+{"accuracy_test": 0.998, "f1_test": 0.997, "precision_test": 0.998, "recall_test": 0.997}
