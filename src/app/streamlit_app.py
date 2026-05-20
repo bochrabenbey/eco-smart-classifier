@@ -28,61 +28,263 @@ st.set_page_config(
 PROCESSED_DIR = os.getenv("PROCESSED_DIR", "data/processed")
 
 PALETTE = {
-    "Métal":         {"color": "#60A5FA", "bg": "#1E3A5F", "icon": "🔩"},
-    "Papier":        {"color": "#34D399", "bg": "#0D3D2E", "icon": "📄"},
-    "Plastique":     {"color": "#F97316", "bg": "#3D1F0D", "icon": "♻️"},
-    "Verre":         {"color": "#A78BFA", "bg": "#2D1F5E", "icon": "🫙"},
-    "Non labellisé": {"color": "#6B7280", "bg": "#1F2937", "icon": "❓"},
+    "Métal":         {"color": "#93C5FD", "bg": "#EFF6FF", "icon": "🔩"},
+    "Papier":        {"color": "#FDE68A", "bg": "#FFFBEB", "icon": "📄"},
+    "Plastique":     {"color": "#6EE7B7", "bg": "#ECFDF5", "icon": "♻️"},
+    "Verre":         {"color": "#C4B5FD", "bg": "#F5F3FF", "icon": "🫙"},
+    "Non labellisé": {"color": "#D1D5DB", "bg": "#F9FAFB", "icon": "❓"},
 }
 
-DARK_CSS = """
+LIGHT_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 :root{
-  --bg-base:#0A0E1A;--bg-card:#111827;--bg-el:#1C2333;
-  --border:#1F2D45;--accent:#22D3EE;--text:#F1F5F9;--muted:#64748B;
+  --bg-base:#F9FAFB;
+  --bg-card:#FFFFFF;
+  --bg-el:#F1F5F9;
+  --border:#E2E8F0;
+  --accent:#2DD4BF;
+  --accent-soft:#F0FDFA; 
+  --text:#1E293B;
+  --muted:#64748B;
 }
-.stApp,[data-testid="stAppViewContainer"]{background:var(--bg-base)!important;font-family:'DM Sans',sans-serif}
-[data-testid="stSidebar"]{background:#0D1220!important;border-right:1px solid var(--border)}
+
+/* ── Base ── */
+.stApp,[data-testid="stAppViewContainer"]{
+  background:var(--bg-base)!important;
+  font-family:'Poppins',sans-serif;
+  color:var(--text)!important;
+}
+
+/* ── Sidebar ── */
+[data-testid="stSidebar"]{
+  background:#FFFFFF!important;
+  border-right:1px solid var(--border)!important;
+}
+
+/* ── Hide Streamlit chrome ── */
 #MainMenu,footer,header,[data-testid="stToolbar"]{visibility:hidden;display:none}
-h1,h2,h3{font-family:'Space Mono',monospace!important;color:var(--text)!important}
-p,li,label{font-family:'DM Sans',sans-serif!important;color:var(--text)!important}
-.stMarkdown p{color:#CBD5E1!important}
-[data-testid="metric-container"]{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px!important}
-[data-testid="stMetricValue"]{font-family:'Space Mono',monospace!important;color:var(--accent)!important;font-size:1.8rem!important}
-[data-testid="stMetricLabel"]{color:var(--muted)!important;font-size:.75rem!important}
-.stButton>button{background:linear-gradient(135deg,#0EA5E9,#22D3EE)!important;color:#0A0E1A!important;border:none!important;border-radius:8px!important;font-family:'Space Mono',monospace!important;font-weight:700!important;font-size:.8rem!important;padding:10px 24px!important;transition:all .2s ease!important}
-.stButton>button:hover{transform:translateY(-2px)!important;box-shadow:0 8px 24px rgba(34,211,238,.35)!important}
-.stButton>button p,.stButton>button span,.stButton>button div{color:#0A0E1A!important}
-div[data-testid="column"] .stButton>button{background:#1C2333!important;color:#F1F5F9!important;border:1px solid #334155!important;padding:6px 14px!important}
-div[data-testid="column"] .stButton>button p,div[data-testid="column"] .stButton>button span,div[data-testid="column"] .stButton>button div{color:#F1F5F9!important}
-div[data-testid="column"] .stButton>button:hover{background:#22D3EE22!important;border-color:#22D3EE!important;color:#22D3EE!important;transform:none!important;box-shadow:none!important}
-[data-testid="stDownloadButton"] button{background:#1C2333!important;color:#F1F5F9!important;border:1px solid #334155!important;border-radius:8px!important;font-family:'Space Mono',monospace!important;font-size:.8rem!important;padding:8px 16px!important}
-[data-testid="stDownloadButton"] button p,[data-testid="stDownloadButton"] button span,[data-testid="stDownloadButton"] button div{color:#F1F5F9!important}
-[data-testid="stDownloadButton"] button:hover{background:#22D3EE22!important;border-color:#22D3EE!important;color:#22D3EE!important;transform:none!important;box-shadow:none!important}
-[data-baseweb="select"]>div{background:var(--bg-el)!important;border-color:var(--border)!important}
-[data-baseweb="select"] [data-testid="stMarkdownContainer"],[class*="singleValue"],[class*="placeholder"]{color:var(--text)!important}
-[data-baseweb="popover"] li{background:var(--bg-el)!important;color:var(--text)!important}
-[data-baseweb="popover"] li:hover{background:#22D3EE22!important}
-textarea,input{background:var(--bg-el)!important;color:var(--text)!important;border-color:var(--border)!important}
-[data-baseweb="tab-list"]{background:var(--bg-card)!important;border-radius:10px;padding:4px;gap:2px}
-[data-baseweb="tab"]{background:transparent!important;color:var(--muted)!important;border-radius:8px!important;font-family:'Space Mono',monospace!important;font-size:.78rem!important}
-[aria-selected="true"][data-baseweb="tab"]{background:var(--accent)!important;color:#0A0E1A!important}
-[data-testid="stDataFrame"]{background:var(--bg-card)!important;border:1px solid var(--border)!important;border-radius:10px}
-[data-testid="stExpander"]{background:var(--bg-card)!important;border:1px solid var(--border)!important;border-radius:10px}
-::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-base)}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-.eco-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin:8px 0}
-.pred-card{border-radius:14px;padding:28px;text-align:center;margin:12px 0}
-.pred-label{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
-.pred-value{font-family:'Space Mono',monospace;font-size:2.2rem;font-weight:700;margin:4px 0}
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700}
-.section-header{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-@keyframes border-pulse{0%,100%{border-color:var(--border)}50%{border-color:var(--accent)}}
-.live-card{animation:border-pulse 2s ease infinite}
+
+/* ── Typography ── */
+h1,h2,h3,h4{color:var(--text)!important;font-weight:600;}
+p,li,label,span,.stMarkdown p{color:var(--text)!important;}
+
+/* ── Sliders — LIGHT ── */
+[data-testid="stSlider"] [data-baseweb="slider"] [role="slider"]{
+  background:#A78BFA!important;
+  border-color:#A78BFA!important;
+}
+[data-testid="stSlider"] div[data-testid="stTickBar"]{color:var(--muted)!important;}
+/* Track rempli (partie gauche) */
+[data-testid="stSlider"] [data-baseweb="slider"] div:nth-child(3){
+  background:#A78BFA!important;
+}
+/* Valeur au-dessus du curseur */
+[data-testid="stSlider"] [data-baseweb="slider"] [data-testid="stThumbValue"]{
+  color:#7C3AED!important;
+  background:transparent!important;
+}
+
+/* ── Selectbox ── */
+[data-baseweb="select"]>div{
+  background:#FFFFFF!important;
+  border:1px solid var(--border)!important;
+  border-radius:10px!important;
+  color:var(--text)!important;
+}
+[data-baseweb="select"] [class*="singleValue"],
+[data-baseweb="select"] [class*="placeholder"],
+[data-baseweb="select"] [data-testid="stMarkdownContainer"]{
+  color:var(--text)!important;
+}
+/* Dropdown options */
+[data-baseweb="popover"] li{
+  background:#FFFFFF!important;
+  color:var(--text)!important;
+}
+[data-baseweb="popover"] li:hover{
+  background:var(--accent-soft)!important;
+}
+
+/* ── Text inputs & textareas ── */
+textarea,input,[data-baseweb="input"]>div{
+  background:#FFFFFF!important;
+  color:var(--text)!important;
+  border:1px solid var(--border)!important;
+  border-radius:10px!important;
+}
+textarea::placeholder,input::placeholder{color:#94A3B8!important;}
+
+/* ── Radio buttons (sous-tabs) ── */
+[data-baseweb="radio"] label span{color:var(--text)!important;}
+[data-baseweb="radio"] [data-testid="stMarkdownContainer"] p{color:var(--text)!important;}
+
+/* ── Tabs ── */
+[data-baseweb="tab-list"]{
+  background:#F1F5F9!important;
+  border-radius:10px;
+}
+[data-baseweb="tab"]{color:var(--muted)!important;}
+[aria-selected="true"][data-baseweb="tab"]{
+  background:var(--accent)!important;
+  color:#FFFFFF!important;
+  border-radius:8px;
+}
+
+/* ── Metrics ── */
+[data-testid="metric-container"]{
+  background:var(--bg-card)!important;
+  border:1px solid var(--border)!important;
+  border-radius:14px;
+  padding:12px!important;
+}
+[data-testid="stMetricValue"]{color:#7C3AED!important;font-size:1.6rem!important;font-weight:600!important;}
+[data-testid="stMetricLabel"]{color:var(--muted)!important;font-size:0.75rem!important;}
+
+/* ── DataFrames ── */
+[data-testid="stDataFrame"]{
+  background:#FFFFFF!important;
+  border:1px solid var(--border)!important;
+  border-radius:10px;
+}
+[data-testid="stDataFrame"] th{background:#F8FAFC!important;color:var(--text)!important;}
+[data-testid="stDataFrame"] td{color:var(--text)!important;}
+
+/* ── Expander ── */
+[data-testid="stExpander"]{
+  background:#FFFFFF!important;
+  border:1px solid var(--border)!important;
+  border-radius:10px;
+}
+
+/* ── Info / Success / Warning boxes ── */
+[data-testid="stAlert"]{border-radius:10px!important;}
+.stSuccess{background:#F0FDF4!important;color:#166534!important;}
+.stInfo{background:#EFF6FF!important;color:#1E40AF!important;}
+.stWarning{background:#FFFBEB!important;color:#92400E!important;}
+.stError{background:#FEF2F2!important;color:#991B1B!important;}
+
+/* ── Spinner ── */
+[data-testid="stSpinner"] p{color:var(--muted)!important;}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:#F1F5F9;}
+::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:3px;}
+
+/* ── Global Buttons ── */
+.stButton>button{
+  background:#2DD4BF!important;
+  color:white!important;
+  border:none!important;
+  border-radius:12px!important;
+  padding:10px 18px!important;
+  font-weight:600!important;
+  font-family:'Poppins',sans-serif!important;
+  transition:0.2s;
+  box-shadow:0 2px 8px rgba(45,212,191,0.3)!important;
+}
+.stButton>button:hover{
+  background:#0D9488!important;
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(13,148,136,0.35)!important;
+}
+.stButton>button p,.stButton>button span{color:white!important;}
+
+/* ── Download button ── */
+[data-testid="stDownloadButton"] button{
+  background:#FFFFFF!important;
+  color:var(--text)!important;
+  border:1px solid var(--border)!important;
+  border-radius:10px!important;
+}
+[data-testid="stDownloadButton"] button:hover{
+  background:var(--accent-soft)!important;
+  border-color:var(--accent)!important;
+  color:#7C3AED!important;
+}
+
+/* ── Sidebar nav buttons ── */
+[data-testid="stSidebar"] .stButton>button{
+  background:transparent!important;
+  color:var(--muted)!important;
+  border:1.5px solid transparent!important;
+  border-radius:12px!important;
+  padding:10px 16px!important;
+  font-weight:500!important;
+  font-size:.9rem!important;
+  text-align:left!important;
+  justify-content:flex-start!important;
+  box-shadow:none!important;
+  transition:all .18s ease!important;
+}
+[data-testid="stSidebar"] .stButton>button:hover{
+  background:#F1F5F9!important;
+  color:#7C3AED!important;
+  border-color:#E2E8F0!important;
+  transform:none!important;
+  box-shadow:none!important;
+}
+[data-testid="stSidebar"] .stButton>button p{color:inherit!important;}
+
+/* ── Custom components ── */
+.eco-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+  margin:8px 0;
+  box-shadow:0 4px 12px rgba(0,0,0,0.04);
+}
+.pred-card{
+  border-radius:20px;
+  padding:30px;
+  text-align:center;
+}
+.pred-label{
+  font-size:.7rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  opacity:.8;
+  margin-bottom:8px;
+  font-family:'Poppins',sans-serif;
+}
+.pred-value{
+  font-size:2rem;
+  font-weight:700;
+  margin:4px 0;
+}
+.badge{
+  display:inline-block;
+  padding:4px 12px;
+  border-radius:999px;
+  font-size:.7rem;
+  font-weight:600;
+}
+.section-header{
+  font-size:.68rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:12px;
+  padding-bottom:6px;
+  border-bottom:1px solid var(--border);
+}
+.sidebar-title{
+  font-family:'Poppins',sans-serif;
+  font-size:1.25rem;
+  font-weight:700;
+  color:#7C3AED;
+  letter-spacing:-0.5px;
+}
+.sidebar-sub{
+  font-size:.72rem;
+  color:#94A3B8;
+  margin-top:2px;
+}
 </style>
 """
-st.markdown(DARK_CSS, unsafe_allow_html=True)
+st.markdown(LIGHT_CSS, unsafe_allow_html=True)
 
 # ── Session state ─────────────────────────────────────────────────────────────
 if "history" not in st.session_state:
@@ -208,57 +410,55 @@ models  = load_models()
 metrics = load_metrics()
 
 with st.sidebar:
+    # ── Titre ────────────────────────────────────────────────────────────
     st.markdown(
-        "<div style='padding:20px 0 12px'>"
-        "<div style='font-family:Space Mono,monospace;color:#22D3EE;font-size:1.4rem;font-weight:700'>♻ ECO-SMART</div>"
-        "<div style='color:#64748B;font-size:.75rem;margin-top:-4px'>Waste Classification System v2.1</div>"
+        "<div style='padding: 28px 8px 20px'>"
+        "<div class='sidebar-title'>♻ Eco-Smart</div>"
         "</div>",
         unsafe_allow_html=True,
     )
-    st.divider()
 
-    nav = st.radio("", [
-        "📊  Dashboard",
-        "🎯  Prédiction",
-        "🤖  Assistant NLP",
-        "📈  Comparaison Modèles",
-        "🕐  Historique",
-    ], label_visibility="collapsed")
+    st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
-    st.divider()
-    st.markdown("<div class='section-header'>Pipeline Status</div>", unsafe_allow_html=True)
-    for label, key in [
-        ("Preprocessing",  "preprocessing"),
-        ("Classification", "classification"),
-        ("Régression",     "regression"),
-        ("NLP",            "nlp"),
-        ("Multimodal",     "multimodal"),
-        ("Clustering",     "clustering"),
-    ]:
-        done  = key in metrics
-        color = "#34D399" if done else "#4B5563"
-        icon  = "✅" if done else "⏳"
-        st.markdown(
-            f"<div style='font-family:Space Mono,monospace;font-size:.7rem;color:{color};padding:3px 0'>"
-            f"{icon} {label}</div>",
-            unsafe_allow_html=True,
-        )
+    # ── Navigation custom (pas de radio buttons) ──────────────────────────
+    NAV_ITEMS = [
+        ("📊", "Dashboard",          "📊  Dashboard"),
+        ("🎯", "Prédiction",         "🎯  Prédiction"),
+        ("🤖", "Assistant NLP",      "🤖  Assistant NLP"),
+        ("📈", "Comparaison Modèles","📈  Comparaison Modèles"),
+        ("🕐", "Historique",         "🕐  Historique"),
+    ]
 
-    st.divider()
-    n = len(st.session_state.history)
-    st.markdown(
-        f"<div style='font-family:Space Mono,monospace;font-size:.7rem;color:#64748B'>"
-        f"🕐 {n} prédiction{'s' if n != 1 else ''} en session</div>",
-        unsafe_allow_html=True,
-    )
-    if n and st.button("🗑️ Vider historique", use_container_width=True):
-        st.session_state.history = []
-        st.rerun()
+    # Initialiser nav dans session_state
+    if "nav_page" not in st.session_state:
+        st.session_state.nav_page = "📊  Dashboard"
+
+    for icon, label, key in NAV_ITEMS:
+        is_active = st.session_state.nav_page == key
+        css_class = "nav-item active" if is_active else "nav-item"
+        if st.button(
+            f"{icon}  {label}",
+            key=f"nav_{key}",
+            use_container_width=True,
+        ):
+            st.session_state.nav_page = key
+            st.rerun()
+
+    nav = st.session_state.nav_page
+    
+
+  
 
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 1 — DASHBOARD
 # ══════════════════════════════════════════════════════════════════════════════
+AXIS_STYLE = dict(
+    showgrid=True,
+    gridcolor="#E2E8F0",
+    tickfont=dict(color="#1E293B", size=11),
+    title_font=dict(color="#1E293B", size=12)
+)
 if nav == "📊  Dashboard":
     st.markdown("# 📊 Dashboard")
     st.markdown(
@@ -313,10 +513,11 @@ if nav == "📊  Dashboard":
                     marker_line_width=0,
                 ))
                 fig.update_layout(
-                    template="plotly_dark", paper_bgcolor=bg, plot_bgcolor=bg,
-                    font=dict(family="Space Mono", color="#94A3B8"),
+                    template="plotly_white", paper_bgcolor=bg, plot_bgcolor=bg,
+                    font=dict(family="DM Sans", color="#1E293B"),
                     margin=dict(t=10, b=10, l=10, r=10), height=280, showlegend=False,
-                    yaxis=dict(gridcolor="#1F2D45"), xaxis=dict(gridcolor=bg),
+                   yaxis=AXIS_STYLE,
+xaxis=AXIS_STYLE,
                 )
                 st.plotly_chart(fig, use_container_width=True, config=cfg)
 
@@ -333,13 +534,14 @@ if nav == "📊  Dashboard":
                     ),
                     text=[f"{v:.1f}%" for v in nan_df.values],
                     textposition="inside",
-                    textfont=dict(family="Space Mono", size=10, color="#F1F5F9"),
+                    textfont=dict(family="DM Sans", size=10, color="#1E293B"),
                 ))
                 fig2.update_layout(
-                    template="plotly_dark", paper_bgcolor=bg, plot_bgcolor=bg,
-                    font=dict(family="Space Mono", color="#94A3B8"),
+                    template="plotly_white", paper_bgcolor=bg, plot_bgcolor=bg,
+                    font=dict(family="DM Sans", color="#1E293B"),
                     margin=dict(t=10, b=10, l=10, r=10), height=280,
-                    xaxis=dict(gridcolor="#1F2D45"), yaxis=dict(gridcolor=bg),
+                   yaxis=AXIS_STYLE,
+xaxis=AXIS_STYLE,
                 )
                 st.plotly_chart(fig2, use_container_width=True, config=cfg)
 
@@ -353,10 +555,15 @@ if nav == "📊  Dashboard":
                 textfont=dict(family="Space Mono", size=9),
             ))
             fig3.update_layout(
-                template="plotly_dark", paper_bgcolor=bg, plot_bgcolor=bg,
-                font=dict(family="Space Mono", color="#94A3B8"),
-                margin=dict(t=10, b=10, l=10, r=10), height=320,
-            )
+    template="plotly_white",
+    paper_bgcolor="white",
+    plot_bgcolor="white",
+    font=dict(family="DM Sans", color="#1E293B"),
+    margin=dict(t=10, b=10, l=10, r=10),
+    height=320,
+    xaxis=AXIS_STYLE,
+    yaxis=AXIS_STYLE,
+)
             st.plotly_chart(fig3, use_container_width=True, config=cfg)
 
             df_pca = load_pca()
@@ -373,11 +580,11 @@ if nav == "📊  Dashboard":
                     hovertemplate="%{text}<extra></extra>",
                 ))
                 fig4.update_layout(
-                    template="plotly_dark", paper_bgcolor=bg, plot_bgcolor=bg,
-                    font=dict(family="Space Mono", color="#94A3B8"),
+                    template="plotly_white", paper_bgcolor=bg, plot_bgcolor=bg,
+                    font=dict(family="DM Sans", color="#1E293B"),
                     margin=dict(t=10, b=10, l=10, r=10), height=380,
-                    xaxis=dict(gridcolor="#1F2D45", title="PC1"),
-                    yaxis=dict(gridcolor="#1F2D45", title="PC2"),
+                    xaxis={**AXIS_STYLE, "title": "PC1"},
+yaxis={**AXIS_STYLE, "title": "PC2"},
                 )
                 st.plotly_chart(fig4, use_container_width=True, config=cfg)
 
@@ -513,10 +720,10 @@ elif nav == "🎯  Prédiction":
                     textfont=dict(family="Space Mono", size=9, color="#F1F5F9"),
                 ))
                 fig_p.update_layout(
-                    template="plotly_dark",
+                    template="plotly_white",
                     paper_bgcolor="rgba(0,0,0,0)",
                     plot_bgcolor="rgba(0,0,0,0)",
-                    font=dict(family="Space Mono", color="#94A3B8"),
+                    font=dict(family="Space Mono", color="#1E293B"),
                     margin=dict(t=10, b=10, l=10, r=10),
                     height=180,
                     showlegend=False,
@@ -727,14 +934,18 @@ elif nav == "📈  Comparaison Modèles":
                         textfont=dict(family="Space Mono", size=9),
                     ))
             fig.update_layout(
-                template="plotly_dark", paper_bgcolor=bg, plot_bgcolor=bg,
-                font=dict(family="Space Mono", color="#94A3B8"),
-                margin=dict(t=10, b=10, l=10, r=10), height=height,
-                barmode="group",
-                yaxis=dict(gridcolor="#1F2D45", range=[0, 1.1]),
-                xaxis=dict(gridcolor=bg),
-                legend=dict(bgcolor=bg, font=dict(size=9)),
-            )
+    template="plotly_white", paper_bgcolor=bg, plot_bgcolor=bg,
+    font=dict(family="Space Mono", color="#1E293B"),
+    margin=dict(t=10, b=10, l=10, r=10), height=height,
+    barmode="group",
+    yaxis=dict(gridcolor="#E2E8F0", range=[0, 1.1]),
+    xaxis=dict(
+        gridcolor="rgba(0,0,0,0)",
+        tickfont=dict(color="#1E293B", size=10),
+        tickangle=-30,
+    ),
+    legend=dict(bgcolor=bg, font=dict(size=9, color="#1E293B")),
+)
             return fig
 
         if subtab == "Classification":
@@ -806,13 +1017,18 @@ elif nav == "📈  Comparaison Modèles":
                             marker_color=col, marker_line_width=0,
                         ))
                 fig_r.update_layout(
-                    template="plotly_dark", paper_bgcolor=bg, plot_bgcolor=bg,
-                    font=dict(family="Space Mono", color="#94A3B8"),
-                    margin=dict(t=10, b=10, l=10, r=10), height=320,
-                    barmode="group",
-                    yaxis=dict(gridcolor="#1F2D45"),
-                    xaxis=dict(gridcolor=bg),
-                )
+    template="plotly_white", paper_bgcolor=bg, plot_bgcolor=bg,
+    font=dict(family="Space Mono", color="#1E293B"),
+    margin=dict(t=10, b=80, l=10, r=10), height=320,
+    barmode="group",
+    yaxis=dict(gridcolor="#E2E8F0"),
+    xaxis=dict(
+        gridcolor="rgba(0,0,0,0)",
+        tickfont=dict(color="#1E293B", size=10),
+        tickangle=-20,
+    ),
+    legend=dict(font=dict(color="#1E293B", size=9)),
+)
                 st.plotly_chart(fig_r, use_container_width=True, config=cfg)
                 st.dataframe(df_reg, use_container_width=True)
             else:
@@ -864,7 +1080,7 @@ elif nav == "🕐  Historique":
                 textfont=dict(family="Space Mono", size=10),
             ))
             fig_pie.update_layout(
-                template="plotly_dark",
+                template="plotly_white",
                 paper_bgcolor="rgba(0,0,0,0)",
                 margin=dict(t=10, b=10, l=10, r=10),
                 height=220,
