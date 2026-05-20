@@ -57,6 +57,7 @@ LIGHT_CSS = """
 }
 
 /* ── Sidebar ── */
+[data-testid="collapsedControl"]{display:block!important;visibility:visible!important;opacity:1!important;}
 [data-testid="stSidebar"]{
   background:#FFFFFF!important;
   border-right:1px solid var(--border)!important;
