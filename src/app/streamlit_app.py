@@ -1117,3 +1117,4 @@ elif nav == "🕐  Historique":
                     st.session_state.history.pop(i)
                     st.rerun()
 
+
