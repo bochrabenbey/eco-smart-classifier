@@ -63,7 +63,7 @@ LIGHT_CSS = """
 }
 
 /* ── Hide Streamlit chrome ── */
-#MainMenu,footer,header,[data-testid="stToolbar"]{visibility:hidden;display:none}
+#MainMenu,footer,[data-testid="stToolbar"]{visibility:hidden;display:none}
 
 /* ── Typography ── */
 h1,h2,h3,h4{color:var(--text)!important;font-weight:600;}
@@ -1116,3 +1116,4 @@ elif nav == "🕐  Historique":
                 if st.button("🗑️", key=f"del_{i}", help="Supprimer", type="primary"):
                     st.session_state.history.pop(i)
                     st.rerun()
+
