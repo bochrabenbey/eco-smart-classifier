@@ -1,0 +1,6 @@
+{
+  "best_model": "RandomForest",
+  "accuracy_test": 0.998,
+  "f1_test": 0.998,
+  "n_models_compared": 4
+}

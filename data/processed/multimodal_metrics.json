@@ -1,0 +1,7 @@
+{
+  "best_approche": "ColumnTransformer + LinearSVC",
+  "f1_test": 1.0,
+  "accuracy_test": 1.0,
+  "gain_vs_numerique": 0.002,
+  "n_approaches": 7
+}

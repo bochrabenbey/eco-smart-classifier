@@ -1,0 +1,7 @@
+{
+  "k_optimal": 3,
+  "silhouette": 0.4829,
+  "ari": 0.6823,
+  "nmi": 0.8082,
+  "pca_variance_2d": 61.25
+}

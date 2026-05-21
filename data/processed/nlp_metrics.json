@@ -1,0 +1,7 @@
+{
+  "best_vectorisation": "BoW",
+  "best_classifieur": "LinearSVC",
+  "f1_test": 1.0,
+  "accuracy_test": 1.0,
+  "n_combinations": 14
+}

@@ -1,0 +1,13 @@
+{
+  "n_train": 7504,
+  "n_val": 1498,
+  "n_test": 1498,
+  "imputation_method": "IterativeImputer",
+  "imputation_rmse": {
+    "M\u00e9diane": 81.1032,
+    "KNN": 55.9386,
+    "IterativeImputer": 52.3706
+  },
+  "nan_remaining": 1028,
+  "n_classes": 4
+}

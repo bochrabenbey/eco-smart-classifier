@@ -1,0 +1,6 @@
+{
+  "best_model": "GradientBoostingRegressor",
+  "r2": 0.9272,
+  "mae": 0.4423,
+  "rmse": 1.2025
+}
