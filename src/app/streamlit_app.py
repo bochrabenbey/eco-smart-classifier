@@ -57,15 +57,45 @@ LIGHT_CSS = """
 }
 
 /* ── Sidebar ── */
-[data-testid="collapsedControl"]{display:block!important;visibility:visible!important;opacity:1!important;}
 [data-testid="stSidebar"]{
   background:#FFFFFF!important;
   border-right:1px solid var(--border)!important;
 }
 
 /* ── Hide Streamlit chrome ── */
-#MainMenu,footer,[data-testid="stToolbar"]{visibility:hidden;display:none}
+#MainMenu,footer{visibility:hidden;display:none}
 
+/* ── Force sidebar always visible ── */
+[data-testid="stSidebar"]{
+  background:#FFFFFF!important;
+  border-right:1px solid var(--border)!important;
+  min-width:250px!important;
+  width:250px!important;
+}
+[data-testid="stSidebar"][aria-expanded="false"]{
+  min-width:250px!important;
+  width:250px!important;
+  transform:none!important;
+  display:block!important;
+}
+/* Cache le bouton collapse natif de Streamlit */
+[data-testid="stSidebarCollapseButton"]{
+  display:none!important;
+}
+/* Ajuste le contenu principal */
+[data-testid="stAppViewContainer"] > section:first-child{
+  min-width:250px!important;
+  max-width:250px!important;
+}
+/* ── Force sidebar button text visible ── */
+[data-testid="stSidebar"] .stButton>button,
+[data-testid="stSidebar"] .stButton>button p,
+[data-testid="stSidebar"] .stButton>button span,
+[data-testid="stSidebar"] .stButton>button div {
+  color: #64748B !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
 /* ── Typography ── */
 h1,h2,h3,h4{color:var(--text)!important;font-weight:600;}
 p,li,label,span,.stMarkdown p{color:var(--text)!important;}
