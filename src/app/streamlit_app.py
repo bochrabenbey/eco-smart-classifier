@@ -440,9 +440,7 @@ def predict_numeric(models, poids, volume, conductivite, opacite, rigidite, src_
 models  = load_models()
 metrics = load_metrics()
 
-st.write(chr(83)+chr(73)+chr(68)+chr(69)+chr(66)+chr(65)+chr(82))
 with st.sidebar:
-    st.write(chr(79)+chr(75))
     # ── Titre ────────────────────────────────────────────────────────────
     st.markdown(
         "<div style='padding: 28px 8px 20px'>"
