@@ -1,0 +1,344 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocessing/preprocess.py
+    deps:
+    - path: data/raw/dataset_ProjetML_2026.csv
+      hash: md5
+      md5: ebca3e2a097a475cee3af2c152e90164
+      size: 2586532
+    - path: src/preprocessing/preprocess.py
+      hash: md5
+      md5: c61150040c7a8145762376e859e5c08f
+      size: 13820
+    params:
+      params.yaml:
+        data:
+          raw_path: data/raw/dataset_ProjetML_2026.csv
+          processed_dir: data/processed
+          random_state: 42
+          test_size: 0.15
+          val_size: 0.15
+        preprocessing:
+          numeric_cols:
+          - Poids
+          - Volume
+          - Conductivite
+          - Opacite
+          - Rigidite
+          - Prix_Revente
+          cat_cols:
+          - Categorie
+          - Source
+          imputation_method: auto
+          knn_neighbors: 5
+          iterative_max_iter: 10
+          outlier_method: iqr
+          outlier_factor: 1.5
+          scaler: standard
+    outs:
+    - path: data/processed/label_encoder.pkl
+      hash: md5
+      md5: c715e39422cd32e1d45919783d1d3f4b
+      size: 572
+    - path: data/processed/preprocessing_metrics.json
+      hash: md5
+      md5: f0059c921567fca217e5b55dd4ef2c48
+      size: 263
+    - path: data/processed/scaler.pkl
+      hash: md5
+      md5: d1d8b44d69a6e6de5afa632315e12435
+      size: 1143
+    - path: data/processed/source_encoder.pkl
+      hash: md5
+      md5: dcd3ba44ea185dd818454369c82d9071
+      size: 588
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 9ff201a6fcdb58c925ca0177005a4874
+      size: 462610
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 020bf83ae0a1bb96c683598bd558288f
+      size: 2325912
+    - path: data/processed/val.csv
+      hash: md5
+      md5: e1ab872720ee63117ec6c61cb5687b42
+      size: 462067
+  train_classification:
+    cmd: python src/models/train_classification.py
+    deps:
+    - path: data/processed/label_encoder.pkl
+      hash: md5
+      md5: c715e39422cd32e1d45919783d1d3f4b
+      size: 572
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 9ff201a6fcdb58c925ca0177005a4874
+      size: 462610
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 020bf83ae0a1bb96c683598bd558288f
+      size: 2325912
+    - path: data/processed/val.csv
+      hash: md5
+      md5: e1ab872720ee63117ec6c61cb5687b42
+      size: 462067
+    - path: src/models/train_classification.py
+      hash: md5
+      md5: e760933445a65f23bdb6130b8193a4b7
+      size: 8324
+    params:
+      params.yaml:
+        models.classification:
+          models:
+          - LogisticRegression
+          - RandomForest
+          - GradientBoosting
+          - SVC
+          - XGBoost
+          cv_folds: 5
+          scoring: f1_weighted
+          min_accuracy: 0.7
+    outs:
+    - path: data/processed/best_classifier.pkl
+      hash: md5
+      md5: cfe717468ef867cd881bec8b949b7c4f
+      size: 2631993
+    - path: data/processed/classification_metrics.json
+      hash: md5
+      md5: 3475ee35789bfbc7098d0f0ac800c6e2
+      size: 111
+    - path: data/processed/classification_results.csv
+      hash: md5
+      md5: 06b982032b06e748ae209809366bd53a
+      size: 397
+  train_regression:
+    cmd: python src/models/train_regression.py
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 9ff201a6fcdb58c925ca0177005a4874
+      size: 462610
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 020bf83ae0a1bb96c683598bd558288f
+      size: 2325912
+    - path: src/models/train_regression.py
+      hash: md5
+      md5: 2ba56d1504fd04f76840c038ed01b8a2
+      size: 4578
+    params:
+      params.yaml:
+        models.regression:
+          models:
+          - Ridge
+          - RandomForestRegressor
+          - GradientBoostingRegressor
+          cv_folds: 5
+          scoring: r2
+    outs:
+    - path: data/processed/best_regressor.pkl
+      hash: md5
+      md5: f2a9f5d412253ffc96511dcc8dcb4543
+      size: 364124
+    - path: data/processed/regression_metrics.json
+      hash: md5
+      md5: f5206ab5c607ecb8bc7b9c080ba8686c
+      size: 103
+    - path: data/processed/regression_results.csv
+      hash: md5
+      md5: e119385158dc2bec5c02b3c83426cda7
+      size: 139
+  clustering:
+    cmd: python src/models/clustering.py
+    deps:
+    - path: data/processed/label_encoder.pkl
+      hash: md5
+      md5: c715e39422cd32e1d45919783d1d3f4b
+      size: 572
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 9ff201a6fcdb58c925ca0177005a4874
+      size: 462610
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 020bf83ae0a1bb96c683598bd558288f
+      size: 2325912
+    - path: src/models/clustering.py
+      hash: md5
+      md5: 12907108d0c2c218409b325059fa9349
+      size: 7218
+    params:
+      params.yaml:
+        clustering:
+          k_min: 2
+          k_max: 10
+          random_state: 42
+    outs:
+    - path: data/processed/clustering_metrics.json
+      hash: md5
+      md5: 71b89563feb14dc1a1f15e1afa293566
+      size: 112
+    - path: data/processed/kmeans_model.pkl
+      hash: md5
+      md5: ceb714ac973d24decbc4f5e7dba6ebbc
+      size: 36911
+    - path: data/processed/pca_clusters.csv
+      hash: md5
+      md5: bb7a6e4751f808a3ef653309f6d53667
+      size: 511408
+    - path: data/processed/pca_model.pkl
+      hash: md5
+      md5: 6da020af091c5d6a5b2a941704d81323
+      size: 1149
+  train_nlp:
+    cmd: python src/nlp/train_nlp.py
+    deps:
+    - path: data/processed/label_encoder.pkl
+      hash: md5
+      md5: c715e39422cd32e1d45919783d1d3f4b
+      size: 572
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 9ff201a6fcdb58c925ca0177005a4874
+      size: 462610
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 020bf83ae0a1bb96c683598bd558288f
+      size: 2325912
+    - path: data/processed/val.csv
+      hash: md5
+      md5: e1ab872720ee63117ec6c61cb5687b42
+      size: 462067
+    - path: data/raw/dataset_ProjetML_2026.csv
+      hash: md5
+      md5: ebca3e2a097a475cee3af2c152e90164
+      size: 2586532
+    - path: src/nlp/text_preprocessing.py
+      hash: md5
+      md5: 01e59533df3e1410f75029cf16c65d92
+      size: 3860
+    - path: src/nlp/train_nlp.py
+      hash: md5
+      md5: c35e9d677d963eefc239c242e7c9db73
+      size: 10711
+    params:
+      params.yaml:
+        nlp:
+          max_features: 500
+          ngram_min: 1
+          ngram_max: 2
+          min_df: 2
+          w2v_vector_size: 100
+          w2v_window: 5
+          w2v_epochs: 15
+          ft_min_n: 3
+          ft_max_n: 6
+    outs:
+    - path: data/processed/bow_vectorizer.pkl
+      hash: md5
+      md5: 75a23e260555574bf8ea4205ab529ad6
+      size: 12686
+    - path: data/processed/fasttext_model.pkl
+      hash: md5
+      md5: 3458fae2d6b6a33bba22ebdf6211ab71
+      size: 800873475
+    - path: data/processed/nlp_best_classifier.pkl
+      hash: md5
+      md5: 235c3d9b41989794f5422999509d1b1d
+      size: 16755
+    - path: data/processed/nlp_features.csv
+      hash: md5
+      md5: 77898d18e7ef3871c02388c123ee21dc
+      size: 2799227
+    - path: data/processed/nlp_heatmap.png
+      hash: md5
+      md5: 3cefe7e673dd7c355e6f3820bf6854c9
+      size: 53620
+    - path: data/processed/nlp_metrics.json
+      hash: md5
+      md5: eb4803ccaaa32525525f52144b44039e
+      size: 140
+    - path: data/processed/tfidf_vectorizer.pkl
+      hash: md5
+      md5: fabb9c5c633a609ff76d3dd98cdad30a
+      size: 97645
+    - path: data/processed/word2vec_model.pkl
+      hash: md5
+      md5: e4b997d6f39d3ead52565040f5d98710
+      size: 537395
+  train_multimodal:
+    cmd: python src/models/train_multimodal.py
+    deps:
+    - path: data/processed/best_classifier.pkl
+      hash: md5
+      md5: cfe717468ef867cd881bec8b949b7c4f
+      size: 2631993
+    - path: data/processed/nlp_best_classifier.pkl
+      hash: md5
+      md5: 235c3d9b41989794f5422999509d1b1d
+      size: 16755
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 9ff201a6fcdb58c925ca0177005a4874
+      size: 462610
+    - path: data/processed/tfidf_vectorizer.pkl
+      hash: md5
+      md5: fabb9c5c633a609ff76d3dd98cdad30a
+      size: 97645
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 020bf83ae0a1bb96c683598bd558288f
+      size: 2325912
+    - path: data/processed/val.csv
+      hash: md5
+      md5: e1ab872720ee63117ec6c61cb5687b42
+      size: 462067
+    - path: src/models/train_multimodal.py
+      hash: md5
+      md5: 0e0cc854d33530aeb85a36631791a609
+      size: 9054
+    params:
+      params.yaml:
+        models.classification:
+          models:
+          - LogisticRegression
+          - RandomForest
+          - GradientBoosting
+          - SVC
+          - XGBoost
+          cv_folds: 5
+          scoring: f1_weighted
+          min_accuracy: 0.7
+        nlp:
+          max_features: 500
+          ngram_min: 1
+          ngram_max: 2
+          min_df: 2
+          w2v_vector_size: 100
+          w2v_window: 5
+          w2v_epochs: 15
+          ft_min_n: 3
+          ft_max_n: 6
+    outs:
+    - path: data/processed/multimodal_metrics.json
+      hash: md5
+      md5: c686c00c7782d97d969a68601b17287e
+      size: 153
+    - path: data/processed/multimodal_results.csv
+      hash: md5
+      md5: e99dab2c4a1fdc0185b38d7a3b978c44
+      size: 307
+    - path: data/processed/pipeline_multimodal.pkl
+      hash: md5
+      md5: 180170cf425bec7648b596e462339cd3
+      size: 114947
+    - path: data/processed/stacking_classifier.pkl
+      hash: md5
+      md5: 08e4ed4aa04f82988340b6d77daac2a5
+      size: 754179
+    - path: data/processed/tfidf_multimodal.pkl
+      hash: md5
+      md5: 21b21173844937a88d5a9d56f297516f
+      size: 97645
