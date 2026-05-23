@@ -65,28 +65,6 @@ LIGHT_CSS = """
 /* ── Hide Streamlit chrome ── */
 #MainMenu,footer{visibility:hidden;display:none}
 
-/* ── Force sidebar always visible ── */
-[data-testid="stSidebar"]{
-  background:#FFFFFF!important;
-  border-right:1px solid var(--border)!important;
-  min-width:250px!important;
-  width:250px!important;
-}
-[data-testid="stSidebar"][aria-expanded="false"]{
-  min-width:250px!important;
-  width:250px!important;
-  transform:none!important;
-  display:block!important;
-}
-/* Cache le bouton collapse natif de Streamlit */
-[data-testid="stSidebarCollapseButton"]{
-  display:none!important;
-}
-/* Ajuste le contenu principal */
-[data-testid="stAppViewContainer"] > section:first-child{
-  min-width:250px!important;
-  max-width:250px!important;
-}
 /* ── Force sidebar button text visible ── */
 [data-testid="stSidebar"] .stButton>button,
 [data-testid="stSidebar"] .stButton>button p,
